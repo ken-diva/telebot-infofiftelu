@@ -4,5 +4,9 @@ For developers ☕
 
 - buat environment, instal _requirement.txt_
 - buat _.env_ file lalu taruh token botnya disitu
-- isinya begini: `export BOT_TOKEN=your-token-here`
-- file datanya pakai ini _text.xlsx_
+- .env isinya begini
+
+```
+BOT_TOKEN=6099300581:AAEMjnQN0gnieIcj029_tuXyNLi7NSAZt88
+SHEET_ID=1FUO33IdeaxgFnEfyb0ELkKo6fBBw5JyWH0zfdHH6Stg
+```
