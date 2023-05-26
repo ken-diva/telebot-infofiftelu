@@ -23,7 +23,7 @@ def send_welcome(message):
         mess_list.append(command[x] + " - " + ket[x])
     bot.send_message(
         message.chat.id,
-        f"Selamat datang di Bot Info Fakultas Informatika! \nSilahkan pilih perintah yang diinginkan.\n\n{listToString(mess_list)}",
+        f"Selamat datang di Bot Info Fakultas Informatika! \nSilahkan pilih perintah yang diinginkan \n\n{listToString(mess_list)}",
     )
 
 
@@ -73,7 +73,7 @@ def info_dosen(kode_dosen):
             nama = data_dosen["Nama"].to_string(index=False)
             j_kontak = data_dosen["Jenis Kontak"].to_string(index=False)
             kontak = data_dosen["Kontak"].to_string(index=False)
-            mess = f"Kode Dosen \n{x} \nNama Lengkap \n{nama}\nHubungi melalui \n{j_kontak}\nKontak \n{kontak}"
+            mess = f"Kode Dosen \n{x} \n\nNama Lengkap \n{nama}\n\nHubungi melalui \n{j_kontak}\n\nKontak \n{kontak}"
             break
     return mess
 
