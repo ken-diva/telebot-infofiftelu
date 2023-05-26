@@ -71,7 +71,9 @@ def info_dosen(kode_dosen):
         if kode_dosen == x:
             data_dosen = data.loc[data["Kode"] == x]
             nama = data_dosen["Nama"].to_string(index=False)
-            j_kontak = data_dosen["Jenis Kontak"].to_string(index=False)
+            j_kontak = data_dosen[
+                "Jenis Kontak (Whatsapp/Telegram/Nomor Telp)"
+            ].to_string(index=False)
             kontak = data_dosen["Kontak"].to_string(index=False)
             mess = f"Kode Dosen \n{x} \n\nNama Lengkap \n{nama}\n\nHubungi melalui \n{j_kontak}\n\nKontak \n{kontak}"
             break
