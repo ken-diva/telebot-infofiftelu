@@ -66,7 +66,7 @@ def echo_all(message):
 
 def info_dosen(kode_dosen):
     data = getData("dosen")
-    mess = f"Data tidak ditemukan untuk kode dosen: {kode_dosen.capitalize()}"
+    mess = f"Perintah tidak valid: {kode_dosen.capitalize()}"
     for x in data["Kode"]:
         if kode_dosen == x:
             data_dosen = data.loc[data["Kode"] == x]
