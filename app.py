@@ -1,4 +1,5 @@
 import telebot, pandas, os
+from telebot.apihelper import ApiTelegramException
 
 # from dotenv.main import load_dotenv
 
@@ -14,60 +15,97 @@ bot = telebot.TeleBot(token, parse_mode=None)
 
 @bot.message_handler(commands=["start"])
 def send_welcome(message):
-    data = getData("bot")
-    command, ket, mess_list = [], [], []
-    for x in data["Perintah"]:
-        command.append(x)
-    for x in data["Keterangan"]:
-        ket.append(x)
-    for x in data.index:
-        mess_list.append(command[x] + " - " + ket[x])
-    bot.send_message(
-        message.chat.id,
-        f"Selamat datang di Bot Info Fakultas Informatika! \nSilahkan pilih perintah yang diinginkan \n\n{listToString(mess_list)}",
-    )
+    try:
+        data = getData("bot")
+        command, ket, mess_list = [], [], []
+        for x in data["Perintah"]:
+            command.append(x)
+        for x in data["Keterangan"]:
+            ket.append(x)
+        for x in data.index:
+            mess_list.append(command[x] + " - " + ket[x])
+        bot.send_message(
+            message.chat.id,
+            f"Selamat datang di Bot Info Fakultas Informatika! \nSilahkan pilih perintah yang diinginkan \n\n{listToString(mess_list)}",
+        )
+    except ApiTelegramException as e:
+        if e.description == "Forbidden: bot was blocked by the user":
+            bot.send_message(
+                message.chat.id,
+                f"Jangan di block ya akang/teteh nu bageur 😊 ",
+            )
 
 
 @bot.message_handler(commands=["about"])
 def send_welcome(message):
-    creator = "Creator: \nt.me/Kendiva 🔥 \n"
-    supp = "Supported by: \nFakultas Informatika | Telkom University"
-    bot.send_message(message.chat.id, creator + supp)
+    try:
+        creator = "Creator: \nFakultas Informatika | Telkom University \n"
+        supp = "Supported by: \nt.me/Kendiva 🔥"
+        bot.send_message(message.chat.id, creator + supp)
+    except ApiTelegramException as e:
+        if e.description == "Forbidden: bot was blocked by the user":
+            bot.send_message(
+                message.chat.id,
+                f"Jangan di block ya akang/teteh nu bageur 😊 ",
+            )
 
 
 @bot.message_handler(commands=["mbkm"])
 def send_welcome(message):
-    data = getData("mbkm")
-    link, ket, mess_list = [], [], []
-    for x in data["Keterangan"]:
-        ket.append(x)
-    for x in data["Link"]:
-        link.append(x)
-    for x in data.index:
-        mess_list.append(ket[x] + " \n" + link[x])
-    bot.send_message(
-        message.chat.id,
-        f"Informasi MBKM \n\n{listToString(mess_list)}",
-        disable_web_page_preview=True,
-    )
+    try:
+        data = getData("mbkm")
+        link, ket, mess_list = [], [], []
+        for x in data["Keterangan"]:
+            ket.append(x)
+        for x in data["Link"]:
+            link.append(x)
+        for x in data.index:
+            mess_list.append(ket[x] + " \n" + link[x])
+        bot.send_message(
+            message.chat.id,
+            f"Informasi MBKM \n\n{listToString(mess_list)}",
+            disable_web_page_preview=True,
+        )
+    except ApiTelegramException as e:
+        if e.description == "Forbidden: bot was blocked by the user":
+            bot.send_message(
+                message.chat.id,
+                f"Jangan di block ya akang/teteh nu bageur 😊 ",
+            )
 
 
 @bot.message_handler(commands=["dosen"])
 def send_welcome(message):
-    bot.send_message(message.chat.id, f"Silahkan masukkan kode dosen yang ingin dicari")
+    try:
+        bot.send_message(
+            message.chat.id, f"Silahkan masukkan kode dosen yang ingin dicari"
+        )
+    except ApiTelegramException as e:
+        if e.description == "Forbidden: bot was blocked by the user":
+            bot.send_message(
+                message.chat.id,
+                f"Jangan di block ya akang/teteh nu bageur 😊 ",
+            )
 
 
 @bot.message_handler(func=lambda message: True)
 def echo_all(message):
-    chat_id = message.chat.id
-    kode_dosen = message.text
-    mess = info_dosen(kode_dosen.upper())
-    bot.send_message(chat_id, mess)
+    try:
+        chat_id = message.chat.id
+        kode_dosen = message.text
+        mess = info_dosen(kode_dosen.upper())
+        bot.send_message(chat_id, mess)
+    except ApiTelegramException as e:
+        if e.description == "Forbidden: bot was blocked by the user":
+            bot.send_message(
+                message.chat.id,
+                f"Jangan di block ya akang/teteh nu bageur 😊 ",
+            )
 
 
 def info_dosen(kode_dosen):
     data = getData("dosen")
-    mess = f"Perintah tidak valid: {kode_dosen.capitalize()}"
+    mess = f"Perintah/ Kode Dosen tidak valid: {kode_dosen.capitalize()}"
     for x in data["Kode"]:
         if kode_dosen == x:
             data_dosen = data.loc[data["Kode"] == x]
